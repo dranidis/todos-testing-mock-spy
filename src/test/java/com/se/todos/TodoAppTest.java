@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -45,15 +46,19 @@ import org.mockito.Mockito;
 // Todo capturedArgument = argumentCaptor.getValue();
 
 public class TodoAppTest {
+    TodoRepository mockTodoRepository;
+    TodoApp todoApp;
+    
+    @Before 
+    public void setup() {
+        mockTodoRepository = Mockito.mock(TodoRepository.class);
+        todoApp = new TodoApp(mockTodoRepository);
+    }
 
     @Test
     public void showTasks_OneTask() {
-        TodoRepository mockTodoRepository = Mockito.mock(TodoRepository.class);
-
         List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo("Buy groceries")));
         Mockito.when(mockTodoRepository.getTodos()).thenReturn(todos);
-
-        TodoApp todoApp = new TodoApp(mockTodoRepository);
 
         String output = todoApp.showTasks();
         assertTrue(output.contains("Buy groceries"));
@@ -61,11 +66,8 @@ public class TodoAppTest {
 
     @Test
     public void showTasks_Two_Tasks() {
-        TodoRepository mockTodoRepository = Mockito.mock(TodoRepository.class);
         List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo("Buy groceries"), new Todo("Study SE")));
         Mockito.when(mockTodoRepository.getTodos()).thenReturn(todos);
-
-        TodoApp todoApp = new TodoApp(mockTodoRepository);
 
         String output = todoApp.showTasks();
         assertTrue(output.contains("Buy groceries"));
@@ -74,8 +76,7 @@ public class TodoAppTest {
 
     @Test
     public void createTask_EmptyString() {
-        TodoRepository mockTodoRepository = Mockito.mock(TodoRepository.class);
-        TodoApp spyTodoApp = Mockito.spy(new TodoApp(mockTodoRepository));
+        TodoApp spyTodoApp = Mockito.spy(todoApp);
 
         // different syntax for spies
         Mockito.doReturn(false).when(spyTodoApp).isValidDescription("");
@@ -86,8 +87,7 @@ public class TodoAppTest {
 
     @Test
     public void createTask() {
-        TodoRepository mockTodoRepository = Mockito.mock(TodoRepository.class);
-        TodoApp spyTodoApp = Mockito.spy(new TodoApp(mockTodoRepository));
+        TodoApp spyTodoApp = Mockito.spy(todoApp);
 
         // different syntax for spies
         Mockito.doReturn(true).when(spyTodoApp).isValidDescription("I have to do");

@@ -2,13 +2,10 @@ package com.se.todos;
 
 import java.util.List;
 
-public class TodoRepository {
+public interface TodoRepository {
 
-    public List<Todo> getTodos() {
-        return null;
-    }
+    public List<Todo> getTodos();
 
-    public void saveTask(Todo todo) {
-    }
+    public void saveTask(Todo todo);
 
 }
