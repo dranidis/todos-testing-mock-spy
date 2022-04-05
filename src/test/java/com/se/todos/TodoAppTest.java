@@ -79,7 +79,7 @@ public class TodoAppTest {
         TodoApp spyTodoApp = Mockito.spy(todoApp);
 
         // different syntax for spies
-        Mockito.doReturn(false).when(spyTodoApp).isValidDescription("");
+        // Mockito.doReturn(false).when(spyTodoApp).isValidDescription("");
 
         spyTodoApp.createTask("");
         Mockito.verifyNoInteractions(mockTodoRepository);
@@ -90,7 +90,7 @@ public class TodoAppTest {
         TodoApp spyTodoApp = Mockito.spy(todoApp);
 
         // different syntax for spies
-        Mockito.doReturn(true).when(spyTodoApp).isValidDescription("I have to do");
+        // Mockito.doReturn(true).when(spyTodoApp).isValidDescription("I have to do");
 
         spyTodoApp.createTask("I have to do");
 
@@ -101,7 +101,7 @@ public class TodoAppTest {
 
         // and the description of the Todo object is correct
         Todo capturedArgument = argumentCaptor.getValue();
-        assertEquals("I have to do", capturedArgument.getDescription());
+        assertEquals("I have to do", capturedArgument.description);
     }
 
 }

@@ -11,9 +11,7 @@ public class TodoApp {
     }
 
     public boolean isValidDescription(String description) {
-        System.out.println("CALLED");
-        // return description.isEmpty();
-        return true;
+        return !description.isEmpty();
     }
 
     public void createTask(String todoDescription) {
@@ -27,7 +25,7 @@ public class TodoApp {
         StringBuilder sb = new StringBuilder();
 
         for (Todo todo : todos) {
-            sb.append(todo.getDescription());
+            sb.append(todo.description);
         }
         return sb.toString();
     }

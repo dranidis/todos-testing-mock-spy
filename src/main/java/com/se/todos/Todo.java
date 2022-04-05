@@ -2,14 +2,22 @@ package com.se.todos;
 
 public class Todo {
 
-    private String description;
+    public final String description;
 
     public Todo(String description) {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
+    public Todo() {
+        this.description = "";
+    }
+
+    // public String getDescription() {
+    //     return description;
+    // }
+
+    public String toString() {
+        return "Task: " + description;
     }
  
 }
