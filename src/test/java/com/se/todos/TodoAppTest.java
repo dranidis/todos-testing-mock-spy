@@ -2,10 +2,12 @@ package com.se.todos;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +31,6 @@ import org.mockito.Mockito;
 //
 // Mockito.verifyNoInteractions(mockTodoRepository);
 
-
 // Spies are actual objects
 //
 // stubbing methods of spy objects
@@ -48,8 +49,8 @@ import org.mockito.Mockito;
 public class TodoAppTest {
     TodoRepository mockTodoRepository;
     TodoApp todoApp;
-    
-    @Before 
+
+    @Before
     public void setup() {
         mockTodoRepository = Mockito.mock(TodoRepository.class);
         todoApp = new TodoApp(mockTodoRepository);
@@ -57,51 +58,55 @@ public class TodoAppTest {
 
     @Test
     public void showTasks_OneTask() {
-        List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo("Buy groceries")));
+        String taskDescription = "Do something";
+        List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo(taskDescription)));
         Mockito.when(mockTodoRepository.getTodos()).thenReturn(todos);
 
         String output = todoApp.showTasks();
-        assertTrue(output.contains("Buy groceries"));
+
+        assertTrue(output.contains(taskDescription));
     }
 
     @Test
     public void showTasks_Two_Tasks() {
-        List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo("Buy groceries"), new Todo("Study SE")));
+        List<String> descriptionsOfTasksStored = new ArrayList<String>(Arrays.asList("Buy groceries", "Study SE"));
+        List<Todo> todos = descriptionsOfTasksStored.stream().map(d -> new Todo(d)).collect(Collectors.toList());
         Mockito.when(mockTodoRepository.getTodos()).thenReturn(todos);
 
         String output = todoApp.showTasks();
-        assertTrue(output.contains("Buy groceries"));
-        assertTrue(output.contains("Study SE"));
+
+        for(String description: descriptionsOfTasksStored) {
+            assertTrue(output.contains(description));
+        }
     }
 
     @Test
     public void createTask_EmptyString() {
         TodoApp spyTodoApp = Mockito.spy(todoApp);
-
         // different syntax for spies
         Mockito.doReturn(false).when(spyTodoApp).isValidDescription("");
 
         spyTodoApp.createTask("");
+
         Mockito.verifyNoInteractions(mockTodoRepository);
     }
 
     @Test
     public void createTask() {
+        String taskDescription = "I have to do";
         TodoApp spyTodoApp = Mockito.spy(todoApp);
-
         // different syntax for spies
-        Mockito.doReturn(true).when(spyTodoApp).isValidDescription("I have to do");
+        Mockito.doReturn(true).when(spyTodoApp).isValidDescription(taskDescription);
 
-        spyTodoApp.createTask("I have to do");
+        spyTodoApp.createTask(taskDescription);
 
         // saveTask is called
         // the argument is a Todo object
         ArgumentCaptor<Todo> argumentCaptor = ArgumentCaptor.forClass(Todo.class);
         Mockito.verify(mockTodoRepository).saveTask(argumentCaptor.capture());
-
         // and the description of the Todo object is correct
         Todo capturedArgument = argumentCaptor.getValue();
-        assertEquals("I have to do", capturedArgument.getDescription());
+        assertEquals(taskDescription, capturedArgument.getDescription());
     }
 
 }
