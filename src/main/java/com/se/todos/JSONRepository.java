@@ -2,17 +2,25 @@ package com.se.todos;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import com.se.todos.util.JSONFile;
 
 public class JSONRepository implements TodoRepository {
-    private final String fileName = "resources/todos.json";
+    private final String fileName;
     private final JSONFile jsonFile = new JSONFile();
 
     private List<Todo> todos;
 
     public JSONRepository() {
+        this.fileName = Paths.get("resources", "todos.json").toString();
+        createJSONFile();
+        todos = jsonFile.readJsonFile(fileName);
+    }
+
+    public JSONRepository(String fileName2) {
+        this.fileName = fileName2;
         createJSONFile();
         todos = jsonFile.readJsonFile(fileName);
     }

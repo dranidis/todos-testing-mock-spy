@@ -2,14 +2,15 @@ package com.se.todos;
 
 public class Main {
     public static void main(String[] args) {
-        TodoRepository todoRepository = new JSONRepository();
-        TodoApp todoApp = new TodoApp(todoRepository);
-
         for(int i=0;i<args.length;i++) {
             System.out.println("ARG " + i + ": " + args[i]);
         }
+        String fileName = args[0];
+        String todoDescription = args[1];
 
-        String todoDescription = args[0];
+        TodoRepository todoRepository = new JSONRepository(fileName);
+        TodoApp todoApp = new TodoApp(todoRepository);
+
         todoApp.createTask(todoDescription);
     }
 }

@@ -1,10 +1,16 @@
 package com.se.todos;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class AcceptanceIT {
 
     private TodoAppSUT todoApp = new TodoAppSUT();
+
+    @Before
+    public void emptyJSONFile() {
+        todoApp.emptyJSONFile();
+    }
 
     @Test
     public void AddTaskTest() {
