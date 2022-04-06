@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 import com.se.todos.util.JSONFile;
 
@@ -55,4 +56,14 @@ public class JSONRepository implements TodoRepository {
         saveToFile();
     }
 
+    @Override
+    public void update(String todoDescription, TodoUpdater todoUpdater) {
+        Optional<Todo> todo = todos.stream().filter(t -> t.description.equals(todoDescription)).findFirst();
+        if (todo.isPresent()) {
+            todoUpdater.update(todo.get());
+            saveToFile();
+        } else {
+            System.err.println("update: Todo not found: " + todoDescription);
+        }
+    }
 }

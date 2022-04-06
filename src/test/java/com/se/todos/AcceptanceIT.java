@@ -33,7 +33,7 @@ public class AcceptanceIT {
     @Test
     public void showsAllTasks() {
         // Given
-        todoApp.fillRepositoryWithTasks(Arrays.asList("Task 1", "Task 2", "Task 3"));
+        todoApp.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
         todoApp.startApplication();
@@ -41,6 +41,20 @@ public class AcceptanceIT {
 
         // Then
         todoApp.assertThatAllTasksAreListed(Arrays.asList("Task 1", "Task 2", "Task 3"));
+    }
+
+    @Test
+    public void completeATodo() {
+        // Given
+        todoApp.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
+
+        // When
+        todoApp.startApplication();
+        todoApp.completeTask("Task 2");
+
+        // Then
+        todoApp.assertThatTaskIscompleted("Task 2");
+        todoApp.assertThatTasksAreNotcompleted(Arrays.asList("Task 1", "Task 3"));
     }
 
 }

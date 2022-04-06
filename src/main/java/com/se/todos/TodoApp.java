@@ -25,9 +25,13 @@ public class TodoApp {
         StringBuilder sb = new StringBuilder();
 
         for (Todo todo : todos) {
-            sb.append("[ ] " + todo.description + "\n");
+            sb.append(todo.toString() + "\n");
         }
         return sb.toString();
+    }
+
+    public void completeTask(String todoDescription) {
+        todoRepository.update(todoDescription, todo -> todo.setCompleted(true));
     }
 
 }
