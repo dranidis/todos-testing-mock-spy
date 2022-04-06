@@ -11,30 +11,36 @@ public class AcceptanceIT {
     private TodoAppSUT todoApp = new TodoAppSUT();
 
     @Before
-    public void emptyJSONFile() {
-        todoApp.emptyJSONFile();
-        todoApp.captureSystemOutput();
-    }
-
-    @Test
-    public void addsANewTask() {
-        todoApp.startApplication();
-        todoApp.addTaskWithDescription("A new task");
-        todoApp.assertThatTaskIsAdded("A new task");
-    }
-
-    
-    @Test
-    public void showsAllTasks() {
-        todoApp.fillRepositoryWithSomeTasks(Arrays.asList("Task 1", "Task 2", "Task 3"));
-
-        todoApp.startApplication();
-        todoApp.listTasks();
-        todoApp.assertThatAllTasksAreListed(Arrays.asList("[ ] Task 1", "[ ] Task 2", "[ ] Task 3"));
+    public void emptyRepository() {
+        todoApp.setUp();
     }
 
     @After
     public void cleanUp() {
-        todoApp.restoreSystemOutput();
+        todoApp.cleanUp();
     }
+
+    @Test
+    public void addsANewTask() {
+        // When
+        todoApp.startApplication();
+        todoApp.addTaskWithDescription("A new task");
+
+        // Then
+        todoApp.assertThatTaskIsAdded("A new task");
+    }
+
+    @Test
+    public void showsAllTasks() {
+        // Given
+        todoApp.fillRepositoryWithTasks(Arrays.asList("Task 1", "Task 2", "Task 3"));
+
+        // When
+        todoApp.startApplication();
+        todoApp.listTasks();
+
+        // Then
+        todoApp.assertThatAllTasksAreListed(Arrays.asList("Task 1", "Task 2", "Task 3"));
+    }
+
 }

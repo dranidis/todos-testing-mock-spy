@@ -49,11 +49,11 @@ public class TodoAppSUT {
         list.stream().forEach(s -> assertTrue(mainOut.contains(s)));
     }
 
-    public void emptyJSONFile() {
+    public void emptyRepository() {
         jsonFile.writeJsonFile(fileName, new ArrayList<>());
     }
 
-    public void fillRepositoryWithSomeTasks(List<String> list) {
+    public void fillRepositoryWithTasks(List<String> list) {
         jsonFile.writeJsonFile(fileName, list.stream().map(s -> new Todo(s)).collect(toList()));
     }
 
@@ -66,9 +66,18 @@ public class TodoAppSUT {
         System.setOut(ps);
     }
 
-    public void restoreSystemOutput() {
+    private void restoreSystemOutput() {
         System.out.flush();
         System.setOut(originalSystemOut);
+    }
+
+    public void cleanUp() {
+        restoreSystemOutput();
+    }
+
+    public void setUp() {
+        emptyRepository();
+        captureSystemOutput();        
     }
 
 }
