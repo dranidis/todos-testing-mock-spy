@@ -15,13 +15,13 @@ public class JSONRepository implements TodoRepository {
 
     public JSONRepository() {
         this.fileName = Paths.get("resources", "todos.json").toString();
-        createJSONFile();
+        createJSONRepositoryFile();
         todos = jsonFile.readJsonFile(fileName);
     }
 
     public JSONRepository(String fileName2) {
         this.fileName = fileName2;
-        createJSONFile();
+        createJSONRepositoryFile();
         todos = jsonFile.readJsonFile(fileName);
     }
 
@@ -29,14 +29,14 @@ public class JSONRepository implements TodoRepository {
         jsonFile.writeJsonFile(fileName, todos);
     }
 
-    private void createJSONFile() {
+    private void createJSONRepositoryFile() {
         try {
             File myFile = new File(fileName);
 
             if (myFile.createNewFile()) {
-                System.out.println("File is created!");
+                System.out.println(fileName + " repository file is created!");
             } else {
-                System.out.println("File already exists.");
+                System.out.println(fileName + " repository file already exists.");
             }
 
         } catch (IOException e) {

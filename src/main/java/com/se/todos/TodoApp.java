@@ -25,7 +25,7 @@ public class TodoApp {
         StringBuilder sb = new StringBuilder();
 
         for (Todo todo : todos) {
-            sb.append(todo.description);
+            sb.append("[ ] " + todo.description + "\n");
         }
         return sb.toString();
     }
