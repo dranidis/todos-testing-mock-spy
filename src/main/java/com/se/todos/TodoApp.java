@@ -20,6 +20,10 @@ public class TodoApp {
         todoRepository.saveTask(new Todo(todoDescription));
     }
 
+    public List<Todo> getTasks() {
+        return todoRepository.getTodos();
+    }
+
     public String showTasks() {
         List<Todo> todos = todoRepository.getTodos();
         StringBuilder sb = new StringBuilder();
