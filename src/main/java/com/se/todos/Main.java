@@ -1,5 +1,6 @@
 package com.se.todos;
 
+import com.se.todos.persistence.JSONRepository;
 import com.se.todos.ui.CLI;
 import com.se.todos.ui.ConsoleUI;
 
@@ -8,6 +9,7 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             System.out.println("ARG " + i + ": " + args[i]);
         }
+
         TodoRepository todoRepository;
         if (args.length == 0) {
             todoRepository = new JSONRepository();
@@ -15,14 +17,13 @@ public class Main {
             String fileName = args[0];
             todoRepository = new JSONRepository(fileName);
         }
+        
+        TodoApp todoApp = new TodoApp(todoRepository);
 
         if (args.length > 1) {
-            (new CLI()).execute(args);
+            (new CLI(todoApp)).execute(args);
         } else {
-        TodoApp todoApp = new TodoApp(todoRepository);
-            ConsoleUI ui = new ConsoleUI(todoApp);
-            ui.uiLoop();
-          
+            (new ConsoleUI(todoApp)).uiLoop();
         }
     }
 

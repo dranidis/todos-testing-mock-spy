@@ -1,4 +1,4 @@
-package com.se.todos;
+package com.se.todos.domain;
 
 public class Todo {
 

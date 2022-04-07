@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.se.todos.Todo;
+import com.se.todos.domain.Todo;
 
 public class JSONFile {
 

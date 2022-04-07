@@ -2,6 +2,8 @@ package com.se.todos;
 
 import java.util.List;
 
+import com.se.todos.domain.Todo;
+
 public class TodoApp {
 
     private TodoRepository todoRepository;

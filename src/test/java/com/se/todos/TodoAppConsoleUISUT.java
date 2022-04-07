@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
+import com.se.todos.domain.Todo;
 import com.se.todos.util.JSONFile;
 
 public class TodoAppConsoleUISUT implements TodoAppSUT {
