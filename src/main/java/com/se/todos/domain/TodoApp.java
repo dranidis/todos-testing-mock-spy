@@ -38,4 +38,8 @@ public class TodoApp {
         todoRepository.update(todoDescription, todo -> todo.setCompleted(true));
     }
 
+    public void deleteTask(String deleteTodoDescription) {
+        todoRepository.delete(deleteTodoDescription);
+    }
+
 }

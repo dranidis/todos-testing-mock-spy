@@ -69,4 +69,15 @@ public class JSONRepository implements TodoRepository {
             System.err.println("update: Todo not found: " + todoDescription);
         }
     }
+
+    @Override
+    public void delete(String deleteTodoDescription) {
+        Optional<Todo> todo = todos.stream().filter(t -> t.description.equals(deleteTodoDescription)).findFirst();
+        if (todo.isPresent()) {
+            todos.remove(todo.get());
+            saveToFile();
+        } else {
+            System.err.println("delete: Todo not found: " + deleteTodoDescription);
+        }
+    }
 }

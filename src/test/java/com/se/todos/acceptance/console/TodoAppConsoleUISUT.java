@@ -2,101 +2,108 @@ package com.se.todos.acceptance.console;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
 
 import com.se.todos.Main;
+import com.se.todos.acceptance.RepositoryHelper;
 import com.se.todos.acceptance.TodoAppSUT;
-import com.se.todos.domain.Todo;
-import com.se.todos.util.JSONFile;
 
 public class TodoAppConsoleUISUT implements TodoAppSUT {
 
     private final String fileName = Paths.get("src", "test", "todos.json").toString();
-    private JSONFile jsonFile = new JSONFile();
     private String mainOut;
     private ByteArrayOutputStream outputStream;
     private PrintStream originalSystemOut;
+    private RepositoryHelper repositoryHelper = new RepositoryHelper(fileName);
     private static final InputStream DEFAULT_STDIN = System.in;
 
-
+    @Override
     public void setUp() {
         System.out.println("SETUP");
-        emptyRepository();
+        repositoryHelper.emptyRepository();
         captureSystemOutput();
     }
 
+    @Override
     public void cleanUp() {
         restoreSystemOutput();
         System.setIn(DEFAULT_STDIN);
     }
 
+    @Override
     public void startApplication() {
     }
 
+    @Override
     public void addTaskWithDescription(String description) {
         System.setIn(new ByteArrayInputStream(("1\n" + description + "\n0\n").getBytes()));
-        String a[] =  {fileName};
+        String a[] = { fileName };
         Main.main(a);
     }
 
+    @Override
     public void assertThatTaskIsAdded(String description) {
-        List<Todo> todos = jsonFile.readJsonFile(fileName);
-
-        boolean exists = todos.stream().anyMatch(t -> t.description.equals(description));
-        if (!exists) {
-            fail("No task found with description: '" + description + "'' in file: '" + fileName + "'");
-        }
+        repositoryHelper.assertThatTaskIsAdded(description);
     }
 
+    @Override
     public void listTasks() {
         System.setIn(new ByteArrayInputStream(("0\n").getBytes()));
-        String a[] =  {fileName};
+        String a[] = { fileName };
         Main.main(a);
     }
 
+    @Override
     public void assertThatAllTasksAreListed(List<String> list) {
         mainOut = outputStream.toString();
 
         list.stream().forEach(s -> assertTrue(mainOut.contains(s)));
     }
 
-    public void emptyRepository() {
-        jsonFile.writeJsonFile(fileName, new ArrayList<>());
-    }
-
+    @Override
     public void fillRepositoryWithTodos(List<String> list) {
-        jsonFile.writeJsonFile(fileName, list.stream().map(s -> new Todo(s)).collect(toList()));
+        repositoryHelper.fillRepositoryWithTodos(list);
     }
 
+    @Override
     public void completeSecondTask(String description) {
         System.setIn(new ByteArrayInputStream(("2\n2\n0\n").getBytes()));
-        String a[] =  {fileName};
+        String a[] = { fileName };
         Main.main(a);
     }
 
+    @Override
     public void assertThatTaskIscompleted(String string) {
-        assertTrue("Todo is completed", isCompleted(string));
+        assertTrue("Todo is completed", repositoryHelper.isCompleted(string));
     }
 
+    @Override
     public void assertThatTasksAreNotcompleted(List<String> descriptions) {
-        descriptions.forEach(t -> assertFalse(isCompleted(t)));
+        descriptions.forEach(t -> assertFalse(repositoryHelper.isCompleted(t)));
     }
 
-    private boolean isCompleted(String description) {
-        List<Todo> todos = jsonFile.readJsonFile(fileName);
-        Optional<Todo> todo = todos.stream().filter(t -> t.description.equals(description)).findFirst();
-        return todo.get().isCompleted();
+
+
+    // DELETE
+
+    @Override
+    public void deleteSecondTask(String string) {
+        System.setIn(new ByteArrayInputStream(("3\n2\n0\n").getBytes()));
+        String a[] = { fileName };
+        Main.main(a);
+    }
+
+    @Override
+    public void assertThatTaskIsDeleted(String description) {
+        repositoryHelper.assertThatTaskIsDeleted(description);
+
     }
 
     /**

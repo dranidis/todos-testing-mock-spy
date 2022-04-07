@@ -18,7 +18,7 @@ public class ConsoleUI {
         scanner = new Scanner(System.in);
     }
 
-    List<String> menuChoices = Arrays.asList("1. Add a todo item", "2. Complete a task", "0. Exit");
+    List<String> menuChoices = Arrays.asList("1. Add a todo item", "2. Complete a task", "3. Delete a task", "0. Exit");
 
     public void showMenu() {
         System.out.println("\nMENU\n----");
@@ -35,15 +35,18 @@ public class ConsoleUI {
                 option = Integer.parseInt(scanner.nextLine());
                 System.out.println("Choice: " + option);
                 switch (option) {
-                    case 1:
-                        addTodo();
-                        break;
-                    case 2:
-                        completeTodo();
-                        break;
+                case 1:
+                    addTodo();
+                    break;
+                case 2:
+                    completeTodo();
+                    break;
+                case 3:
+                    deleteTodo();
+                    break;
                 }
             } catch (Exception ex) {
-                System.out.println("error: "+ ex.getMessage());
+                System.out.println("error: " + ex.getMessage());
                 System.out.println("Please enter a number between 0 and " + menuChoices.size());
                 // System.out.println("Scanner next: " + scanner.next());
             }
@@ -51,18 +54,28 @@ public class ConsoleUI {
         }
     }
 
-    private void completeTodo() {
-        System.out.print("Complete the task with nr: ");
+    private void processTodo(String command, TodoAppWorker todoAppWorker) {
+        System.out.print(command + " the task with nr: ");
         try {
             int taskNr = Integer.parseInt(scanner.nextLine());
-            System.out.println("Task to complete: " + taskNr);
-            todoApp.completeTask(todos.get(taskNr - 1).description);
+            System.out.println("Task to " + command + ": " + taskNr);
+
+            todoAppWorker.process(todos.get(taskNr - 1).description);
+
             todos = todoApp.getTasks();
         } catch (Exception ex) {
-            System.out.println("error: "+ ex.getMessage());
+            System.out.println("error: " + ex.getMessage());
             System.out.println("Please enter a number between 1 and " + todos.size());
             // scanner.next();
         }
+    }
+
+    private void deleteTodo() {
+        processTodo("Delete", n -> todoApp.deleteTask(n));
+    }
+
+    private void completeTodo() {
+        processTodo("Complete", n -> todoApp.completeTask(n));
     }
 
     private void addTodo() {
@@ -75,7 +88,7 @@ public class ConsoleUI {
             todoApp.createTask(todoDescription);
             todos = todoApp.getTasks();
         } catch (Exception ex) {
-            System.out.println("error: "+ ex.getMessage());
+            System.out.println("error: " + ex.getMessage());
             // scanner.next();
         }
 

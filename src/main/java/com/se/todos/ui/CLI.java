@@ -29,6 +29,13 @@ public class CLI {
                 System.out.println(completeTodoDescription);
 
                 todoApp.completeTask(completeTodoDescription);
+                break;
+                case "delete":
+                String deleteTodoDescription = args[2];
+                System.out.println("DELETE TASK");
+                System.out.println(deleteTodoDescription);
+
+                todoApp.deleteTask(deleteTodoDescription);               
         }
     }
 }

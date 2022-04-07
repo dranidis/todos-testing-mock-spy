@@ -75,5 +75,18 @@ public class AcceptanceIT {
         todoAppSUT.assertThatTaskIscompleted("Task 2");
         todoAppSUT.assertThatTasksAreNotcompleted(Arrays.asList("Task 1", "Task 3"));
     }
+    
+    @Test
+    public void deleteATask() {
+        // Given
+        todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
+
+        // When
+        todoAppSUT.startApplication();
+        todoAppSUT.deleteSecondTask("Task 2");
+
+        // Then
+        todoAppSUT.assertThatTaskIsDeleted("Task 2");
+    }
 
 }

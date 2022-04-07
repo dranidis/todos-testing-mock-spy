@@ -7,13 +7,13 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
 import com.se.todos.Main;
+import com.se.todos.acceptance.RepositoryHelper;
 import com.se.todos.acceptance.TodoAppSUT;
 import com.se.todos.domain.Todo;
 import com.se.todos.util.JSONFile;
@@ -25,69 +25,73 @@ public class TodoAppSUTCLI implements TodoAppSUT {
     private String mainOut;
     private ByteArrayOutputStream outputStream;
     private PrintStream originalSystemOut;
+    private RepositoryHelper repositoryHelper = new RepositoryHelper(fileName);
 
+
+    @Override
     public void setUp() {
         System.out.println("SETUP");
-        emptyRepository();
+        repositoryHelper.emptyRepository();
         captureSystemOutput();
     }
 
+    @Override
     public void cleanUp() {
         restoreSystemOutput();
     }
 
+    @Override
     public void startApplication() {
     }
 
     // ADD
 
+    @Override
     public void addTaskWithDescription(String description) {
         String a[] = { fileName, "add", description };
         Main.main(a);
     }
 
+    @Override
     public void assertThatTaskIsAdded(String description) {
-        List<Todo> todos = jsonFile.readJsonFile(fileName);
-
-        boolean exists = todos.stream().anyMatch(t -> t.description.equals(description));
-        if (!exists) {
-            fail("No task found with description: '" + description + "'' in file: '" + fileName + "'");
-        }
+        repositoryHelper.assertThatTaskIsAdded(description);
     }
 
     
     // LIST ALL TASKS
 
+    @Override
     public void listTasks() {
         String a[] = { fileName, "list" };
         Main.main(a);
     }
 
+    @Override
     public void assertThatAllTasksAreListed(List<String> list) {
         mainOut = outputStream.toString();
 
         list.stream().forEach(s -> assertTrue(mainOut.contains(s)));
     }
 
-    public void emptyRepository() {
-        jsonFile.writeJsonFile(fileName, new ArrayList<>());
-    }
-
+    @Override
     public void fillRepositoryWithTodos(List<String> list) {
-        jsonFile.writeJsonFile(fileName, list.stream().map(s -> new Todo(s)).collect(toList()));
+        repositoryHelper.fillRepositoryWithTodos(list);
     }
 
     // COMPLETE
 
+    @Override
     public void completeSecondTask(String description) {
         String a[] = { fileName, "complete", description};
         Main.main(a);
     }
 
+    @Override
     public void assertThatTaskIscompleted(String string) {
         assertTrue("Todo is completed", isCompleted(string));
     }
 
+    @Override
     public void assertThatTasksAreNotcompleted(List<String> descriptions) {
         descriptions.forEach(t -> assertFalse(isCompleted(t)));
     }
@@ -97,6 +101,21 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         Optional<Todo> todo = todos.stream().filter(t -> t.description.equals(description)).findFirst();
         return todo.get().isCompleted();
     }
+
+
+    // DELETE
+    
+    @Override
+    public void deleteSecondTask(String description) {
+        String a[] = { fileName, "delete", description};
+        Main.main(a);        
+    }
+
+    @Override
+    public void assertThatTaskIsDeleted(String description) {
+        repositoryHelper.assertThatTaskIsDeleted(description);
+    }
+
 
     /**
      * private

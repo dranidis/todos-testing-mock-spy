@@ -26,4 +26,8 @@ public interface TodoAppSUT {
 
     void assertThatTasksAreNotcompleted(List<String> asList);
 
+    void deleteSecondTask(String string);
+
+    void assertThatTaskIsDeleted(String string);
+
 }
