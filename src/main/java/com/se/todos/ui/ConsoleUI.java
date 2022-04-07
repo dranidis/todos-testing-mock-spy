@@ -40,7 +40,7 @@ public class ConsoleUI {
                 }
             } catch (Exception ex) {
                 System.out.println("Please enter a number between 0 and " + menuChoices.size());
-                scanner.next();
+                System.out.println("Scanner next: " + scanner.next());
             }
 
         }

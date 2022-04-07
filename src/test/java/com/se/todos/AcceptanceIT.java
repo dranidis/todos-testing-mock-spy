@@ -8,7 +8,8 @@ import org.junit.Test;
 
 public class AcceptanceIT {
 
-    private TodoAppSUT todoApp = new TodoAppSUT();
+    // private TodoAppSUT todoApp = new TodoAppSUTCLI();
+    private TodoAppSUT todoApp = new TodoAppConsoleUISUT();
 
     @Before
     public void emptyRepository() {
