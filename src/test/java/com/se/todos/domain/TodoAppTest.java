@@ -1,4 +1,4 @@
-package com.se.todos;
+package com.se.todos.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.se.todos.domain.Todo;
+import com.se.todos.domain.TodoApp;
+import com.se.todos.domain.TodoRepository;
 
 import org.junit.Before;
 import org.junit.Test;

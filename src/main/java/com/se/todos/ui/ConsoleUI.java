@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import com.se.todos.TodoApp;
 import com.se.todos.domain.Todo;
+import com.se.todos.domain.TodoApp;
 
 public class ConsoleUI {
     TodoApp todoApp;

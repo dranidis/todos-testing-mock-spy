@@ -1,6 +1,4 @@
-package com.se.todos;
-
-import com.se.todos.domain.Todo;
+package com.se.todos.domain;
 
 @FunctionalInterface
 public interface TodoUpdater {

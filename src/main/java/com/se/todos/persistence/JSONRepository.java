@@ -6,9 +6,9 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-import com.se.todos.TodoRepository;
-import com.se.todos.TodoUpdater;
 import com.se.todos.domain.Todo;
+import com.se.todos.domain.TodoRepository;
+import com.se.todos.domain.TodoUpdater;
 import com.se.todos.util.JSONFile;
 
 public class JSONRepository implements TodoRepository {

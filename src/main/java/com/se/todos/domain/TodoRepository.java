@@ -1,8 +1,6 @@
-package com.se.todos;
+package com.se.todos.domain;
 
 import java.util.List;
-
-import com.se.todos.domain.Todo;
 
 public interface TodoRepository {
 

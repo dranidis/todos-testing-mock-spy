@@ -1,5 +1,7 @@
 package com.se.todos;
 
+import com.se.todos.domain.TodoApp;
+import com.se.todos.domain.TodoRepository;
 import com.se.todos.persistence.JSONRepository;
 import com.se.todos.ui.CLI;
 import com.se.todos.ui.ConsoleUI;
@@ -17,7 +19,7 @@ public class Main {
             String fileName = args[0];
             todoRepository = new JSONRepository(fileName);
         }
-        
+
         TodoApp todoApp = new TodoApp(todoRepository);
 
         if (args.length > 1) {

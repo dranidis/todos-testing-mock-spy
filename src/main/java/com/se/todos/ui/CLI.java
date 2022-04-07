@@ -1,6 +1,6 @@
 package com.se.todos.ui;
 
-import com.se.todos.TodoApp;
+import com.se.todos.domain.TodoApp;
 
 public class CLI {
     private TodoApp todoApp;

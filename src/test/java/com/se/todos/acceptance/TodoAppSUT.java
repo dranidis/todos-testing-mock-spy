@@ -1,4 +1,4 @@
-package com.se.todos;
+package com.se.todos.acceptance;
 
 import java.util.List;
 

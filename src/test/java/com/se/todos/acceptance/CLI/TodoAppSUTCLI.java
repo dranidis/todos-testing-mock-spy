@@ -1,12 +1,10 @@
-package com.se.todos;
+package com.se.todos.acceptance.CLI;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -15,18 +13,18 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
+import com.se.todos.Main;
+import com.se.todos.acceptance.TodoAppSUT;
 import com.se.todos.domain.Todo;
 import com.se.todos.util.JSONFile;
 
-public class TodoAppConsoleUISUT implements TodoAppSUT {
+public class TodoAppSUTCLI implements TodoAppSUT {
 
     private final String fileName = Paths.get("src", "test", "todos.json").toString();
     private JSONFile jsonFile = new JSONFile();
     private String mainOut;
     private ByteArrayOutputStream outputStream;
     private PrintStream originalSystemOut;
-    private static final InputStream DEFAULT_STDIN = System.in;
-
 
     public void setUp() {
         System.out.println("SETUP");
@@ -36,15 +34,15 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
 
     public void cleanUp() {
         restoreSystemOutput();
-        System.setIn(DEFAULT_STDIN);
     }
 
     public void startApplication() {
     }
 
+    // ADD
+
     public void addTaskWithDescription(String description) {
-        System.setIn(new ByteArrayInputStream(("1\n" + description + "\n0\n").getBytes()));
-        String a[] =  {fileName};
+        String a[] = { fileName, "add", description };
         Main.main(a);
     }
 
@@ -57,9 +55,11 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
         }
     }
 
+    
+    // LIST ALL TASKS
+
     public void listTasks() {
-        System.setIn(new ByteArrayInputStream(("0\n").getBytes()));
-        String a[] =  {fileName};
+        String a[] = { fileName, "list" };
         Main.main(a);
     }
 
@@ -77,9 +77,10 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
         jsonFile.writeJsonFile(fileName, list.stream().map(s -> new Todo(s)).collect(toList()));
     }
 
+    // COMPLETE
+
     public void completeSecondTask(String description) {
-        System.setIn(new ByteArrayInputStream(("2\n2\n0\n").getBytes()));
-        String a[] =  {fileName};
+        String a[] = { fileName, "complete", description};
         Main.main(a);
     }
 
