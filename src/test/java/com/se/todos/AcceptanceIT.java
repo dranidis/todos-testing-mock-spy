@@ -62,13 +62,13 @@ public class AcceptanceIT {
     }
 
     @Test
-    public void completeATodo() {
+    public void completeSecondTask() {
         // Given
         todoAppSut.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
         todoAppSut.startApplication();
-        todoAppSut.completeTask("Task 2");
+        todoAppSut.completeSecondTask("Task 2");
 
         // Then
         todoAppSut.assertThatTaskIscompleted("Task 2");

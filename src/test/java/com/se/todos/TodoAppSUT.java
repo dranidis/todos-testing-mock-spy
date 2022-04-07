@@ -22,7 +22,7 @@ public interface TodoAppSUT {
 
     void listTasks();
 
-    void completeTask(String string);
+    void completeSecondTask(String string);
 
     void assertThatTasksAreNotcompleted(List<String> asList);
 

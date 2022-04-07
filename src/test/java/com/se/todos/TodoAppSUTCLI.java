@@ -36,8 +36,10 @@ public class TodoAppSUTCLI implements TodoAppSUT {
     public void startApplication() {
     }
 
+    // ADD
+
     public void addTaskWithDescription(String description) {
-        String a[] = { fileName, description };
+        String a[] = { fileName, "add", description };
         Main.main(a);
     }
 
@@ -50,8 +52,11 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         }
     }
 
+    
+    // LIST ALL TASKS
+
     public void listTasks() {
-        String a[] = { fileName };
+        String a[] = { fileName, "list" };
         Main.main(a);
     }
 
@@ -69,8 +74,10 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         jsonFile.writeJsonFile(fileName, list.stream().map(s -> new Todo(s)).collect(toList()));
     }
 
-    public void completeTask(String description) {
-        String a[] = { fileName, description, "yes" };
+    // COMPLETE
+
+    public void completeSecondTask(String description) {
+        String a[] = { fileName, "complete", description};
         Main.main(a);
     }
 

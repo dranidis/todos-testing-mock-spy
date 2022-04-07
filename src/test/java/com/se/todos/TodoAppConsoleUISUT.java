@@ -42,13 +42,9 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
     }
 
     public void addTaskWithDescription(String description) {
-        // TODO: fix and replace below
-        // System.setIn(new ByteArrayInputStream(("1\n" + description + "\n0\n").getBytes()));
-
-        // String a[] =  {};
-        // Main.main(a);
-        String a[] = { fileName, description };
-        Main.main(a);        
+        System.setIn(new ByteArrayInputStream(("1\n" + description + "\n0\n").getBytes()));
+        String a[] =  {fileName};
+        Main.main(a);
     }
 
     public void assertThatTaskIsAdded(String description) {
@@ -61,7 +57,8 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
     }
 
     public void listTasks() {
-        String a[] = { fileName };
+        System.setIn(new ByteArrayInputStream(("0\n").getBytes()));
+        String a[] =  {fileName};
         Main.main(a);
     }
 
@@ -79,8 +76,9 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
         jsonFile.writeJsonFile(fileName, list.stream().map(s -> new Todo(s)).collect(toList()));
     }
 
-    public void completeTask(String description) {
-        String a[] = { fileName, description, "yes" };
+    public void completeSecondTask(String description) {
+        System.setIn(new ByteArrayInputStream(("2\n2\n0\n").getBytes()));
+        String a[] =  {fileName};
         Main.main(a);
     }
 
