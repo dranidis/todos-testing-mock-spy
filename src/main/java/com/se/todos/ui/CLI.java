@@ -15,7 +15,7 @@ public class CLI {
             String todoDescription = args[1];
 
             System.out.println("COMPLETE TASK");
-            System.out.println("=========");
+            System.out.println("=============");
             System.out.println(todoDescription);
 
             todoApp.completeTask(todoDescription);

@@ -30,11 +30,11 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
     public void setUp() {
         System.out.println("SETUP");
         emptyRepository();
-        // captureSystemOutput();
+        captureSystemOutput();
     }
 
     public void cleanUp() {
-        // restoreSystemOutput();
+        restoreSystemOutput();
         System.setIn(DEFAULT_STDIN);
     }
 
@@ -42,10 +42,13 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
     }
 
     public void addTaskWithDescription(String description) {
-        System.setIn(new ByteArrayInputStream("1\nA\n".getBytes()));
+        // TODO: fix and replace below
+        // System.setIn(new ByteArrayInputStream(("1\n" + description + "\n0\n").getBytes()));
 
-        String a[] =  {};
-        Main.main(a);
+        // String a[] =  {};
+        // Main.main(a);
+        String a[] = { fileName, description };
+        Main.main(a);        
     }
 
     public void assertThatTaskIsAdded(String description) {
