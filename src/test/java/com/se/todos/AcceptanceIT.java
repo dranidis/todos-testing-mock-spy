@@ -1,60 +1,78 @@
 package com.se.todos;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(value = Parameterized.class)
 public class AcceptanceIT {
+    private TodoAppSUT todoAppSut;
+    // private TodoAppSUT todoAppSut = new TodoAppSUTCLI();
+    // private TodoAppSUT todoApp = new TodoAppConsoleUISUT();
 
-    private TodoAppSUT todoApp = new TodoAppSUT();
+    public AcceptanceIT(TodoAppSUT todoAppSUT) {
+        this.todoAppSut = todoAppSUT;
+    }
+
+    @Parameters(name = "{index}: test({0})")
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] {
+                { new TodoAppSUTCLI() },
+                { new TodoAppConsoleUISUT() }
+        });
+    }
 
     @Before
     public void emptyRepository() {
-        todoApp.setUp();
+        todoAppSut.setUp();
     }
 
     @After
     public void cleanUp() {
-        todoApp.cleanUp();
+        todoAppSut.cleanUp();
     }
 
     @Test
     public void addsANewTask() {
         // When
-        todoApp.startApplication();
-        todoApp.addTaskWithDescription("A new task");
+        todoAppSut.startApplication();
+        todoAppSut.addTaskWithDescription("A new task");
 
         // Then
-        todoApp.assertThatTaskIsAdded("A new task");
+        todoAppSut.assertThatTaskIsAdded("A new task");
     }
 
     @Test
     public void showsAllTasks() {
         // Given
-        todoApp.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
+        todoAppSut.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
-        todoApp.startApplication();
-        todoApp.listTasks();
+        todoAppSut.startApplication();
+        todoAppSut.listTasks();
 
         // Then
-        todoApp.assertThatAllTasksAreListed(Arrays.asList("Task 1", "Task 2", "Task 3"));
+        todoAppSut.assertThatAllTasksAreListed(Arrays.asList("Task 1", "Task 2", "Task 3"));
     }
 
     @Test
-    public void completeATodo() {
+    public void completeSecondTask() {
         // Given
-        todoApp.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
+        todoAppSut.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
-        todoApp.startApplication();
-        todoApp.completeTask("Task 2");
+        todoAppSut.startApplication();
+        todoAppSut.completeSecondTask("Task 2");
 
         // Then
-        todoApp.assertThatTaskIscompleted("Task 2");
-        todoApp.assertThatTasksAreNotcompleted(Arrays.asList("Task 1", "Task 3"));
+        todoAppSut.assertThatTaskIscompleted("Task 2");
+        todoAppSut.assertThatTasksAreNotcompleted(Arrays.asList("Task 1", "Task 3"));
     }
 
 }

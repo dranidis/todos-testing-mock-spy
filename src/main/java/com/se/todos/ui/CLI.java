@@ -5,34 +5,61 @@ import com.se.todos.TodoApp;
 import com.se.todos.TodoRepository;
 
 public class CLI {
-    public static void execute(String[] args) {
+    public void execute(String[] args) {
         String fileName = args[0];
 
         TodoRepository todoRepository = new JSONRepository(fileName);
         TodoApp todoApp = new TodoApp(todoRepository);
 
-        if (args.length > 2) {
-            String todoDescription = args[1];
+        switch (args[1]) {
+            case "list":
+                System.out.println("ALL TASKS");
+                System.out.println("=========");
 
-            System.out.println("COMPLETE TASK");
-            System.out.println("=========");
-            System.out.println(todoDescription);
+                String allTasks = todoApp.showTasks();
+                System.out.println(allTasks);
+                break;
+            case "add":
+                String todoDescription = args[2];
 
-            todoApp.completeTask(todoDescription);
-        } else if (args.length > 1) {
-            String todoDescription = args[1];
+                System.out.println("ADD TASK");
+                System.out.println("=========");
+                System.out.println(todoDescription);
 
-            System.out.println("ADD TASK");
-            System.out.println("=========");
-            System.out.println(todoDescription);
+                todoApp.createTask(todoDescription);
+                break;
+            case "complete":
+                String completeTodoDescription = args[2];
 
-            todoApp.createTask(todoDescription);
-        } else {
-            System.out.println("ALL TASKS");
-            System.out.println("=========");
+                System.out.println("COMPLETE TASK");
+                System.out.println("=============");
+                System.out.println(completeTodoDescription);
 
-            String allTasks = todoApp.showTasks();
-            System.out.println(allTasks);
+                todoApp.completeTask(completeTodoDescription);
         }
+
+        // if (args.length > 2) {
+        // String todoDescription = args[1];
+
+        // System.out.println("COMPLETE TASK");
+        // System.out.println("=============");
+        // System.out.println(todoDescription);
+
+        // todoApp.completeTask(todoDescription);
+        // } else if (args.length > 1) {
+        // String todoDescription = args[1];
+
+        // System.out.println("ADD TASK");
+        // System.out.println("=========");
+        // System.out.println(todoDescription);
+
+        // todoApp.createTask(todoDescription);
+        // } else {
+        // System.out.println("ALL TASKS");
+        // System.out.println("=========");
+
+        // String allTasks = todoApp.showTasks();
+        // System.out.println(allTasks);
+        // }
     }
 }
