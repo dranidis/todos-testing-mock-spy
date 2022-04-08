@@ -2,24 +2,33 @@ package com.se.todos.domain;
 
 public class Todo {
 
+    public final String id;
     public String description;
     private boolean completed = false;
 
-    public Todo(String description) {
+    public Todo(String id, String description) {
+        this.id = id;
         this.description = description;
         this.completed = false;
     }
 
+    public Todo(String id) {
+        this.id = id;
+        this.description = "";
+        this.completed = false;
+    }
+
     public Todo() {
+        this.id = "";
         this.description = "";
     }
 
     // public String getDescription() {
-    //     return description;
+    // return description;
     // }
 
     public String toString() {
-        String completedString = completed ? "[x] ": "[ ] ";
+        String completedString = completed ? "[x] " : "[ ] ";
         return completedString + "Task: " + description;
     }
 
@@ -31,5 +40,5 @@ public class Todo {
         // System.out.println("setCompleted : " + b + this);
         completed = b;
     }
- 
+
 }

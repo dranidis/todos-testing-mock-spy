@@ -34,7 +34,12 @@ public class RepositoryHelper {
     }   
 
     public void fillRepositoryWithTodos(List<String> list) {
-        jsonFile.writeJsonFile(fileName, list.stream().map(s -> new Todo(s)).collect(toList()));
+        List<Todo> todos = new ArrayList<>();
+        int i = 1;
+        for(String description: list) {
+            todos.add(new Todo("" + i++, description));
+        }
+        jsonFile.writeJsonFile(fileName, todos);
     }
 
     public boolean isCompleted(String description) {
@@ -46,10 +51,6 @@ public class RepositoryHelper {
     public void emptyRepository() {
         jsonFile.writeJsonFile(fileName, new ArrayList<>());
     }
-
-    public void fillRepositoryWithTodos(String fileName, List<String> list) {
-        jsonFile.writeJsonFile(fileName, list.stream().map(s -> new Todo(s)).collect(toList()));
-    }  
 
     public boolean taskExists(String description) {
         List<Todo> todos = jsonFile.readJsonFile(fileName);

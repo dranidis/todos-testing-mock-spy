@@ -57,7 +57,7 @@ public class TodoAppTest {
 
     @Test
     public void showTasks_OneTask() {
-        List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo("Buy groceries")));
+        List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo("1", "Buy groceries")));
         Mockito.when(mockTodoRepository.getTodos()).thenReturn(todos);
 
         String output = todoApp.showTasks();
@@ -66,7 +66,7 @@ public class TodoAppTest {
 
     @Test
     public void showTasks_Two_Tasks() {
-        List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo("Buy groceries"), new Todo("Study SE")));
+        List<Todo> todos = new ArrayList<Todo>(Arrays.asList(new Todo("1", "Buy groceries"), new Todo("2", "Study SE")));
         Mockito.when(mockTodoRepository.getTodos()).thenReturn(todos);
 
         String output = todoApp.showTasks();

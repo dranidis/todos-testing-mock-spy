@@ -1,6 +1,7 @@
 package com.se.todos.domain;
 
 import java.util.List;
+import java.util.UUID;
 
 public class TodoApp {
 
@@ -17,7 +18,7 @@ public class TodoApp {
     public void createTask(String todoDescription) {
         if (!isValidDescription(todoDescription))
             return;
-        todoRepository.saveTask(new Todo(todoDescription));
+        todoRepository.saveTask(new Todo(UUID.randomUUID().toString(), todoDescription));
     }
 
     public List<Todo> getTasks() {
