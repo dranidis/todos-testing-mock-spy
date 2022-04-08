@@ -10,10 +10,11 @@ import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
 
-
 import com.se.todos.Main;
 import com.se.todos.acceptance.RepositoryHelper;
 import com.se.todos.acceptance.TodoAppSUT;
+
+import com.se.todos.ui.ConsoleUI;
 
 public class TodoAppConsoleUISUT implements TodoAppSUT {
 
@@ -43,7 +44,8 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
 
     @Override
     public void addTaskWithDescription(String description) {
-        System.setIn(new ByteArrayInputStream(("1\n" + description + "\n0\n").getBytes()));
+        String input = "" + ConsoleUI.ADD_TODO + "\n" + description + "\n" + ConsoleUI.EXIT_APP + "\n";
+        System.setIn(new ByteArrayInputStream((input).getBytes()));
         String a[] = { fileName };
         Main.main(a);
     }
@@ -55,7 +57,8 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
 
     @Override
     public void listTasks() {
-        System.setIn(new ByteArrayInputStream(("0\n").getBytes()));
+        String input = "" + ConsoleUI.EXIT_APP + "\n";
+        System.setIn(new ByteArrayInputStream((input).getBytes()));
         String a[] = { fileName };
         Main.main(a);
     }
@@ -74,7 +77,8 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
 
     @Override
     public void completeSecondTask(String description) {
-        System.setIn(new ByteArrayInputStream(("2\n2\n0\n").getBytes()));
+        String input = "" + ConsoleUI.COMPLETE_TODO + "\n" + 2 + "\n" + ConsoleUI.EXIT_APP + "\n";
+        System.setIn(new ByteArrayInputStream((input).getBytes()));
         String a[] = { fileName };
         Main.main(a);
     }
@@ -89,13 +93,12 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
         descriptions.forEach(t -> assertFalse(repositoryHelper.isCompleted(t)));
     }
 
-
-
     // DELETE
 
     @Override
     public void deleteSecondTask(String string) {
-        System.setIn(new ByteArrayInputStream(("3\n2\n0\n").getBytes()));
+        String input = "" + ConsoleUI.DELETE_TODO + "\n" + 2 + "\n" + ConsoleUI.EXIT_APP + "\n";
+        System.setIn(new ByteArrayInputStream((input).getBytes()));
         String a[] = { fileName };
         Main.main(a);
     }
