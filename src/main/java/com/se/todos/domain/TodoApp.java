@@ -42,4 +42,8 @@ public class TodoApp {
         todoRepository.delete(deleteTodoDescription);
     }
 
+    public void editTask(String description, String newTodoDescription) {
+        todoRepository.update(description, todo -> todo.description = newTodoDescription);
+    }
+
 }

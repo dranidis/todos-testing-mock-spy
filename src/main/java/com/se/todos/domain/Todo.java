@@ -2,7 +2,7 @@ package com.se.todos.domain;
 
 public class Todo {
 
-    public final String description;
+    public String description;
     private boolean completed = false;
 
     public Todo(String description) {

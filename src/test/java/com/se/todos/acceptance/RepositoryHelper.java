@@ -55,5 +55,14 @@ public class RepositoryHelper {
         List<Todo> todos = jsonFile.readJsonFile(fileName);
         boolean exists = todos.stream().anyMatch(t -> t.description.equals(description));
         return exists;
+    }
+
+    public void assertThatTaskHasChanged(String oldDescription, String newDescription) {
+        if (taskExists(oldDescription)) {
+            fail("Old task found with description: '" + oldDescription + "'' in file: '" + fileName + "'");
+        }
+        if (!taskExists(newDescription)) {
+            fail("No task found with description: '" + newDescription + "'' in file: '" + fileName + "'");
+        }        
     }    
 }

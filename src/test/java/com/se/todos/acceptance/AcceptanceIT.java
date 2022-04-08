@@ -89,4 +89,17 @@ public class AcceptanceIT {
         todoAppSUT.assertThatTaskIsDeleted("Task 2");
     }
 
+    @Test
+    public void editATask() {
+        // Given
+        todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
+
+        // When
+        todoAppSUT.startApplication();
+        todoAppSUT.editSecondTask("Task 2", "Task 2 edited");
+
+        // Then
+        todoAppSUT.assertThatTaskHasChanged("Task 2", "Task 2 edited");
+    }
+
 }

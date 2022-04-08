@@ -18,6 +18,7 @@ public class ConsoleUI {
     public static final int COMPLETE_TODO = 2;
     public static final int DELETE_TODO = 3;
     public static final int EXIT_APP = 0;
+    public static final int EDIT_TODO = 4;
 
     public ConsoleUI(TodoApp todoApp) {
         this.todoApp = todoApp;
@@ -54,6 +55,7 @@ public class ConsoleUI {
         addMenuChoice(new MenuChoice(ADD_TODO, "Add a todo", () -> addTodo()));
         addMenuChoice(new MenuChoice(COMPLETE_TODO, "Complete a todo", () -> completeTodo()));
         addMenuChoice(new MenuChoice(DELETE_TODO, "Delete a todo", () -> deleteTodo()));
+        addMenuChoice(new MenuChoice(EDIT_TODO, "Edit a todo", () -> editTodo()));
         addMenuChoice(new MenuChoice(EXIT_APP, "Exit", () -> {}));
     }
 
@@ -88,6 +90,25 @@ public class ConsoleUI {
 
     private void completeTodo() {
         processTodo("Complete", n -> todoApp.completeTask(n));
+    }
+
+    private void editTodo() {
+        processTodo("Edit", n -> editTodoDescription(n));
+    }    
+
+    private void editTodoDescription(String description) {
+        System.out.print("Add a new description: ");
+
+        try {
+            String newTodoDescription = scanner.nextLine();
+            System.out.println("New description: " + newTodoDescription);
+
+            todoApp.editTask(description, newTodoDescription);
+            todos = todoApp.getTasks();
+        } catch (Exception ex) {
+            System.out.println("error: " + ex.getMessage());
+            // scanner.next();
+        }        
     }
 
     private void addTodo() {

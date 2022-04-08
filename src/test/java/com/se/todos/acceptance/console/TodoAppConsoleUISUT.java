@@ -109,6 +109,22 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
 
     }
 
+    // EDIT
+
+    @Override
+    public void editSecondTask(String oldDescription, String newDescription) {
+        String input = "" + ConsoleUI.EDIT_TODO + "\n" + 2 + "\n" +
+                newDescription + "\n" + ConsoleUI.EXIT_APP + "\n";
+        System.setIn(new ByteArrayInputStream((input).getBytes()));
+        String a[] = { fileName };
+        Main.main(a);
+    }
+
+    @Override
+    public void assertThatTaskHasChanged(String oldDescription, String newDescription) {
+        repositoryHelper.assertThatTaskHasChanged(oldDescription, newDescription);
+    }
+
     /**
      * private
      */

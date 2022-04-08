@@ -24,7 +24,6 @@ public class TodoAppSUTCLI implements TodoAppSUT {
     private PrintStream originalSystemOut;
     private RepositoryHelper repositoryHelper = new RepositoryHelper(fileName);
 
-
     @Override
     public void setUp() {
         System.out.println("SETUP");
@@ -54,7 +53,6 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         repositoryHelper.assertThatTaskIsAdded(description);
     }
 
-    
     // LIST ALL TASKS
 
     @Override
@@ -79,7 +77,7 @@ public class TodoAppSUTCLI implements TodoAppSUT {
 
     @Override
     public void completeSecondTask(String description) {
-        String a[] = { fileName, "complete", description};
+        String a[] = { fileName, "complete", description };
         Main.main(a);
     }
 
@@ -99,13 +97,12 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         return todo.get().isCompleted();
     }
 
-
     // DELETE
-    
+
     @Override
     public void deleteSecondTask(String description) {
-        String a[] = { fileName, "delete", description};
-        Main.main(a);        
+        String a[] = { fileName, "delete", description };
+        Main.main(a);
     }
 
     @Override
@@ -113,6 +110,18 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         repositoryHelper.assertThatTaskIsDeleted(description);
     }
 
+    // EDIT
+
+    @Override
+    public void editSecondTask(String oldDescription, String newDescription) {
+        String a[] = { fileName, "edit", oldDescription, newDescription};
+        Main.main(a);
+    }
+
+    @Override
+    public void assertThatTaskHasChanged(String oldDescription, String newDescription) {
+        repositoryHelper.assertThatTaskHasChanged(oldDescription, newDescription);
+    }
 
     /**
      * private
@@ -133,4 +142,5 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         System.out.println(outputStream.toString());
 
     }
+
 }
