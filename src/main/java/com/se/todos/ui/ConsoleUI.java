@@ -1,7 +1,9 @@
 package com.se.todos.ui;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.se.todos.domain.Todo;
@@ -16,9 +18,18 @@ public class ConsoleUI {
         this.todoApp = todoApp;
         todos = todoApp.getTasks();
         scanner = new Scanner(System.in);
+        initOptions();
     }
 
-    List<String> menuChoices = Arrays.asList("1. Add a todo item", "2. Complete a task", "3. Delete a task", "0. Exit");
+    private List<String> menuChoices = Arrays.asList("1. Add a todo item", "2. Complete a task", "3. Delete a task", "0. Exit");
+
+    private Map<Integer, MenuCommand> options;
+    private void initOptions() {
+        options = new HashMap<>();
+        options.put(1, () -> addTodo());
+        options.put(2, () -> completeTodo());
+        options.put(3, () -> deleteTodo());
+    }
 
     public void showMenu() {
         System.out.println("\nMENU\n----");
@@ -34,23 +45,17 @@ public class ConsoleUI {
             try {
                 option = Integer.parseInt(scanner.nextLine());
                 System.out.println("Choice: " + option);
-                switch (option) {
-                case 1:
-                    addTodo();
-                    break;
-                case 2:
-                    completeTodo();
-                    break;
-                case 3:
-                    deleteTodo();
-                    break;
+                MenuCommand selected = options.get(option);
+                if (selected != null) {
+                    selected.execute();
+                } else {
+                    System.out.println("Not a menu choice!");
                 }
             } catch (Exception ex) {
                 System.out.println("error: " + ex.getMessage());
                 System.out.println("Please enter a number between 0 and " + menuChoices.size());
                 // System.out.println("Scanner next: " + scanner.next());
             }
-
         }
     }
 
@@ -91,7 +96,6 @@ public class ConsoleUI {
             System.out.println("error: " + ex.getMessage());
             // scanner.next();
         }
-
     }
 
     public String showTasks() {
