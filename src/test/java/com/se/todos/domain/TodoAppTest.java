@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.se.todos.domain.Todo;
-import com.se.todos.domain.TodoApp;
-import com.se.todos.domain.TodoRepository;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

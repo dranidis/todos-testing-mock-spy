@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.stream.Collectors.toList;
-
 
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.se.todos.domain.Todo;
 
 public class JSONFile {
@@ -39,7 +38,6 @@ public class JSONFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 

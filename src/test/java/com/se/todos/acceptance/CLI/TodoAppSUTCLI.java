@@ -2,15 +2,12 @@ package com.se.todos.acceptance.CLI;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 import com.se.todos.Main;
 import com.se.todos.acceptance.RepositoryHelper;
