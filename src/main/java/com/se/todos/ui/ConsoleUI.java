@@ -45,7 +45,6 @@ public class ConsoleUI {
             } catch (Exception ex) {
                 System.out.println("error: " + ex.getMessage());
                 System.out.println("Please enter a number between 0 and " + menuChoices.size());
-                // System.out.println("Scanner next: " + scanner.next());
             }
         }
     }
@@ -56,7 +55,8 @@ public class ConsoleUI {
         addMenuChoice(new MenuChoice(COMPLETE_TODO, "Complete a todo", () -> completeTodo()));
         addMenuChoice(new MenuChoice(DELETE_TODO, "Delete a todo", () -> deleteTodo()));
         addMenuChoice(new MenuChoice(EDIT_TODO, "Edit a todo", () -> editTodo()));
-        addMenuChoice(new MenuChoice(EXIT_APP, "Exit", () -> {}));
+        addMenuChoice(new MenuChoice(EXIT_APP, "Exit", () -> {
+        }));
     }
 
     private void addMenuChoice(MenuChoice menuChoice) {
@@ -68,7 +68,7 @@ public class ConsoleUI {
         menuChoices.values().forEach(m -> System.out.println(m.number + " " + m.display));
     }
 
-    private void processTodo(String command, TodoAppWorker todoAppWorker) {
+    private void processExistingTodo(String command, TodoAppWorker todoAppWorker) {
         System.out.print(command + " the task with nr: ");
         try {
             int taskNr = Integer.parseInt(scanner.nextLine());
@@ -80,50 +80,32 @@ public class ConsoleUI {
         } catch (Exception ex) {
             System.out.println("error: " + ex.getMessage());
             System.out.println("Please enter a number between 1 and " + todos.size());
-            // scanner.next();
         }
     }
 
     private void deleteTodo() {
-        processTodo("Delete", n -> todoApp.deleteTask(n));
+        processExistingTodo("Delete", n -> todoApp.deleteTask(n));
     }
 
     private void completeTodo() {
-        processTodo("Complete", n -> todoApp.completeTask(n));
+        processExistingTodo("Complete", n -> todoApp.completeTask(n));
     }
 
     private void editTodo() {
-        processTodo("Edit", n -> editTodoDescription(n));
-    }    
-
-    private void editTodoDescription(String description) {
-        System.out.print("Add a new description: ");
-
-        try {
-            String newTodoDescription = scanner.nextLine();
-            System.out.println("New description: " + newTodoDescription);
-
-            todoApp.editTask(description, newTodoDescription);
-            todos = todoApp.getTasks();
-        } catch (Exception ex) {
-            System.out.println("error: " + ex.getMessage());
-            // scanner.next();
-        }        
+        processExistingTodo("Edit", n -> todoApp.editTask(n, enterDescription()));
     }
 
     private void addTodo() {
-        System.out.print("Add a new task with description: ");
+        todoApp.createTask(enterDescription());
+        todos = todoApp.getTasks();
+    }
 
-        try {
-            String todoDescription = scanner.nextLine();
-            System.out.println("Task to add: " + todoDescription);
+    private String enterDescription() {
+        System.out.print("Enter a description: ");
 
-            todoApp.createTask(todoDescription);
-            todos = todoApp.getTasks();
-        } catch (Exception ex) {
-            System.out.println("error: " + ex.getMessage());
-            // scanner.next();
-        }
+        String todoDescription = scanner.nextLine();
+        System.out.println("Description: " + todoDescription);
+        return todoDescription;
     }
 
     private String showTasks() {
