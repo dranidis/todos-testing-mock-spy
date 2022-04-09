@@ -67,11 +67,12 @@ public class AcceptanceIT {
     @Test
     public void completeSecondTask() {
         // Given
+        // if ids are autoincrement starting with 1
         todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
         todoAppSUT.startApplication();
-        todoAppSUT.completeSecondTask("Task 2");
+        todoAppSUT.completeSecondTask("2");
         todoAppSUT.endApplication();
 
         // Then
@@ -82,11 +83,12 @@ public class AcceptanceIT {
     @Test
     public void deleteATask() {
         // Given
+        // if ids are autoincrement starting with 1
         todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
         todoAppSUT.startApplication();
-        todoAppSUT.deleteSecondTask("Task 2");
+        todoAppSUT.deleteSecondTask("2");
         todoAppSUT.endApplication();
 
         // Then
@@ -96,11 +98,12 @@ public class AcceptanceIT {
     @Test
     public void editATask() {
         // Given
+        // if ids are autoincrement starting with 1
         todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
         todoAppSUT.startApplication();
-        todoAppSUT.editSecondTask("Task 2", "Task 2 edited");
+        todoAppSUT.editSecondTask("2", "Task 2 edited");
         todoAppSUT.endApplication();
 
         // Then
@@ -111,7 +114,8 @@ public class AcceptanceIT {
 
     @Test
     public void deleteATask_SameDescriptions() {
-        // Given ids are autoincrement starting with 1
+        // Given 
+        // if ids are autoincrement starting with 1
         todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 2", "Task 1", "Task 3", "Task 1", "Task 1"));
 
         // When

@@ -24,26 +24,26 @@ public class CLI {
                 todoApp.createTask(todoDescription);
                 break;
             case "complete":
-                String completeTodoDescription = args[2];
+                String id = args[2];
                 System.out.println("COMPLETE TASK");
-                System.out.println(completeTodoDescription);
+                System.out.println(id);
 
-                todoApp.completeTask(completeTodoDescription);
+                todoApp.completeTask(id);
                 break;
             case "edit":
-                String editTodoDescription = args[2];
+                String editId = args[2];
                 String newTodoDescription = args[3];
                 System.out.println("EDIT TASK");
-                System.out.println(editTodoDescription);
+                System.out.println(editId);
 
-                todoApp.editTask(editTodoDescription, newTodoDescription);
+                todoApp.editTask(editId, newTodoDescription);
                 break;
             case "delete":
-                String deleteTodoDescription = args[2];
+                String deleteId = args[2];
                 System.out.println("DELETE TASK");
-                System.out.println(deleteTodoDescription);
+                System.out.println(deleteId);
 
-                todoApp.deleteTask(deleteTodoDescription);
+                todoApp.deleteTask(deleteId);
         }
     }
 }
