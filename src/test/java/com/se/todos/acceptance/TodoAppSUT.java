@@ -40,4 +40,6 @@ public interface TodoAppSUT {
 
     void deleteSecondTaskFromList(String string);
 
+    void endApplication();
+
 }

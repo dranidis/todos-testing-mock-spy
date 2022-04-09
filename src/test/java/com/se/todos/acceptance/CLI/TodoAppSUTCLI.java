@@ -162,4 +162,8 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         
     }
 
+    @Override
+    public void endApplication() {
+    }
+
 }
