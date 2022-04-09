@@ -25,6 +25,10 @@ public class TodoApp {
         return todoRepository.getTodos();
     }
 
+    public List<Todo> getTasks(String description) {
+        return todoRepository.getTodos(description);
+    }
+
     public String showTasks() {
         List<Todo> todos = todoRepository.getTodos();
         StringBuilder sb = new StringBuilder();
@@ -35,16 +39,18 @@ public class TodoApp {
         return sb.toString();
     }
 
-    public void completeTask(String todoDescription) {
-        todoRepository.update(todoDescription, todo -> todo.setCompleted(true));
+    public void completeTask(String id) {
+        todoRepository.update(id, todo -> todo.setCompleted(true));
     }
 
-    public void deleteTask(String deleteTodoDescription) {
-        todoRepository.delete(deleteTodoDescription);
+    public void deleteTask(String id) {
+        todoRepository.delete(id);
     }
 
-    public void editTask(String description, String newTodoDescription) {
-        todoRepository.update(description, todo -> todo.description = newTodoDescription);
+    public void editTask(String id, String newTodoDescription) {
+        todoRepository.update(id, todo -> todo.description = newTodoDescription);
     }
+
+
 
 }

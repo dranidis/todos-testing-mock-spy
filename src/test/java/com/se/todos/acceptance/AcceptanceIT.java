@@ -50,19 +50,19 @@ public class AcceptanceIT {
         todoAppSUT.assertThatTaskIsAdded("A new task");
     }
 
-    // @Test
-    // public void showsAllTasks() {
-    //     // Given
-    //     todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
+    @Test
+    public void showsAllTasks() {
+        // Given
+        todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
-    //     // When
-    //     todoAppSUT.startApplication();
-    //     todoAppSUT.listTasks();
-    //     todoAppSUT.endApplication();
+        // When
+        todoAppSUT.startApplication();
+        todoAppSUT.listTasks();
+        todoAppSUT.endApplication();
 
-    //     // Then
-    //     todoAppSUT.assertThatAllTasksAreListed(Arrays.asList("Task 1", "Task 2", "Task 3"));
-    // }
+        // Then
+        todoAppSUT.assertThatAllTasksAreListed(Arrays.asList("Task 1", "Task 2", "Task 3"));
+    }
 
     @Test
     public void completeSecondTask() {
@@ -109,19 +109,24 @@ public class AcceptanceIT {
 
 
 
-    // @Test
-    // public void deleteATask_SameDescriptions() {
-    //     // Given
-    //     todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 1", "Task 1"));
+    @Test
+    public void deleteATask_SameDescriptions() {
+        // Given ids are autoincrement starting with 1
+        todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 2", "Task 1", "Task 3", "Task 1", "Task 1"));
 
-    //     // When
-    //     todoAppSUT.startApplication();
+        // When
+        todoAppSUT.startApplication();
+        todoAppSUT.searchTasks("Task 1");
+        todoAppSUT.deleteSecondTaskFromList();
+
+        // todoAppSUT.listTasks();
+        todoAppSUT.endApplication();
         
-    //     todoAppSUT.searchTasks("Task 1");
-    //     todoAppSUT.deleteSecondTaskFromList("Task 1");
 
-    //     // Then
-    //     todoAppSUT.assertThatTaskSecondTaskIsDeleted("Task 1");
-    // }
+        // todoAppSUT.searchTasks("Task 1");
+
+        // // Then
+        todoAppSUT.assertThatTaskWithIdIsDeleted(4);
+    }
 
 }

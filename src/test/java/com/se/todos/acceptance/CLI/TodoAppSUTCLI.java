@@ -151,13 +151,13 @@ public class TodoAppSUTCLI implements TodoAppSUT {
     }
 
     @Override
-    public void assertThatTaskSecondTaskIsDeleted(String string) {
+    public void assertThatTaskWithIdIsDeleted(int id) {
         fail("Not implemented");
         
     }
 
     @Override
-    public void deleteSecondTaskFromList(String string) {
+    public void deleteSecondTaskFromList() {
         // TODO Auto-generated method stub
         
     }

@@ -13,16 +13,17 @@ public class ConsoleUI {
     private List<Todo> todos;
     private Scanner scanner;
     private Map<Integer, MenuChoice> menuChoices;
+    private String searchString = "";
 
     public static final int ADD_TODO = 1;
     public static final int COMPLETE_TODO = 2;
     public static final int DELETE_TODO = 3;
     public static final int EXIT_APP = 0;
     public static final int EDIT_TODO = 4;
+    public static final int SEARCH_TODO = 5;
 
     public ConsoleUI(TodoApp todoApp) {
         this.todoApp = todoApp;
-        todos = todoApp.getTasks();
         scanner = new Scanner(System.in);
         initMenuChoices();
     }
@@ -30,7 +31,8 @@ public class ConsoleUI {
     public void uiLoop() {
         int option = 9;
         while (option != EXIT_APP) {
-            System.out.println(showTasks());
+            System.out.println("\nTasks matching: " + searchString);
+            System.out.println(showTasks(searchString));
             showMenu();
             System.out.print("Enter your choice : ");
             try {
@@ -52,6 +54,7 @@ public class ConsoleUI {
     private void initMenuChoices() {
         menuChoices = new HashMap<>();
         addMenuChoice(new MenuChoice(ADD_TODO, "Add a todo", () -> addTodo()));
+        addMenuChoice(new MenuChoice(SEARCH_TODO, "Search a todo", () -> searchTodo()));
         addMenuChoice(new MenuChoice(COMPLETE_TODO, "Complete a todo", () -> completeTodo()));
         addMenuChoice(new MenuChoice(DELETE_TODO, "Delete a todo", () -> deleteTodo()));
         addMenuChoice(new MenuChoice(EDIT_TODO, "Edit a todo", () -> editTodo()));
@@ -74,9 +77,8 @@ public class ConsoleUI {
             int taskNr = Integer.parseInt(scanner.nextLine());
             System.out.println("Task to " + command + ": " + taskNr);
 
-            todoAppWorker.process(todos.get(taskNr - 1).description);
+            todoAppWorker.process(todos.get(taskNr - 1).id);
 
-            todos = todoApp.getTasks();
         } catch (Exception ex) {
             System.out.println("error: " + ex.getMessage());
             System.out.println("Please enter a number between 1 and " + todos.size());
@@ -97,7 +99,10 @@ public class ConsoleUI {
 
     private void addTodo() {
         todoApp.createTask(enterDescription());
-        todos = todoApp.getTasks();
+    }
+
+    private void searchTodo() {
+        searchString = enterDescription();
     }
 
     private String enterDescription() {
@@ -108,8 +113,10 @@ public class ConsoleUI {
         return todoDescription;
     }
 
-    private String showTasks() {
+    private String showTasks(String searchString) {
         StringBuilder sb = new StringBuilder();
+
+        todos = todoApp.getTasks(searchString);
 
         int i = 1;
         for (Todo todo : todos) {

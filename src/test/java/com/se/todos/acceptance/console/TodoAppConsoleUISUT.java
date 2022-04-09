@@ -115,20 +115,28 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
     }
 
     @Override
-    public void searchTasks(String string) {
-        String input = "" + ConsoleUI.ADD_TODO + "\n" + "description1" + "\n";
+    public void searchTasks(String description) {
+        System.err.println("Search");
+        String input = "" + ConsoleUI.SEARCH_TODO + "\n" + description + "\n";
         mainThread.writeToInputStream(input);
     }
 
     @Override
-    public void deleteSecondTaskFromList(String string) {
-        String input = "" + ConsoleUI.ADD_TODO + "\n" + "description2" + "\n" + ConsoleUI.EXIT_APP + "\n";
+    public void deleteSecondTaskFromList() {
+        System.err.println("delete 2");
+        String input = "" + ConsoleUI.DELETE_TODO + "\n" + 2 + "\n" + ConsoleUI.SEARCH_TODO + "\n" + "\n"
+                + ConsoleUI.EXIT_APP + "\n";
         mainThread.writeToInputStream(input);
     }
 
     @Override
-    public void assertThatTaskSecondTaskIsDeleted(String string) {
-        fail("Not implemented");
+    public void assertThatTaskWithIdIsDeleted(int id) {
+        repositoryHelper.assertThatTaskWithIdIsDeleted(String.valueOf(id));
+    }
+
+    public void exit() {
+        String input = "" + ConsoleUI.EXIT_APP + "\n";
+        mainThread.writeToInputStream(input);
     }
 
     @Override
@@ -150,7 +158,7 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
     private void restoreSystemOutput() {
         System.out.flush();
         System.setOut(originalSystemOut);
-        System.out.println(outputStream.toString());
+        System.out.println("MAIN OUTPUT: " + outputStream.toString());
     }
 
 }

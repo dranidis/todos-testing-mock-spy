@@ -36,10 +36,10 @@ public interface TodoAppSUT {
 
     void searchTasks(String string);
 
-    void assertThatTaskSecondTaskIsDeleted(String string);
-
-    void deleteSecondTaskFromList(String string);
-
     void endApplication();
+
+    void assertThatTaskWithIdIsDeleted(int i);
+
+    void deleteSecondTaskFromList();
 
 }
