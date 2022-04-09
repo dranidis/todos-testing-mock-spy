@@ -2,6 +2,7 @@ package com.se.todos.acceptance.console;
 
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.function.Consumer;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -11,7 +12,7 @@ public class MainThread {
     private PipedOutputStream pipedOutputStream;
     private Thread mainThread;
 
-    public void start(MainWrapper mainObject, String[] args) {
+    public void start(Consumer<String []> mainObject, String[] args) {
         try {
             pipedOutputStream = new PipedOutputStream();
             System.setIn(new PipedInputStream(pipedOutputStream));
@@ -20,7 +21,7 @@ public class MainThread {
         }
         mainThread = new Thread(new Runnable() {
             public void run() {
-                mainObject.main(args);
+                mainObject.accept(args);
             }
         });
 

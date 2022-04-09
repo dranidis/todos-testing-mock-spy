@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 import com.se.todos.domain.Todo;
 import com.se.todos.domain.TodoApp;
@@ -40,7 +41,7 @@ public class ConsoleUI {
                 System.out.println("Choice: " + option);
                 MenuChoice selected = menuChoices.get(option);
                 if (selected != null) {
-                    selected.command.execute();
+                    selected.command.run();
                 } else {
                     System.out.println("Not a menu choice!");
                 }
@@ -71,13 +72,13 @@ public class ConsoleUI {
         menuChoices.values().forEach(m -> System.out.println(m.number + " " + m.display));
     }
 
-    private void processExistingTodo(String command, TodoAppWorker todoAppWorker) {
+    private void processExistingTodo(String command, Consumer<String> todoAppWorker) {
         System.out.print(command + " the task with nr: ");
         try {
             int taskNr = Integer.parseInt(scanner.nextLine());
             System.out.println("Task to " + command + ": " + taskNr);
 
-            todoAppWorker.process(todos.get(taskNr - 1).id);
+            todoAppWorker.accept(todos.get(taskNr - 1).id);
 
         } catch (Exception ex) {
             System.out.println("error: " + ex.getMessage());

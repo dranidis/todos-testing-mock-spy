@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.se.todos.domain.Todo;
 import com.se.todos.domain.TodoRepository;
-import com.se.todos.domain.TodoUpdater;
 import com.se.todos.util.JSONFile;
 
 public class JSONRepository implements TodoRepository {
@@ -67,10 +67,10 @@ public class JSONRepository implements TodoRepository {
     }
 
     @Override
-    public void update(String id, TodoUpdater todoUpdater) {
+    public void update(String id, Consumer<Todo> todoUpdateFun) {
         Optional<Todo> todo = todos.stream().filter(t -> t.id.equals(id)).findFirst();
         if (todo.isPresent()) {
-            todoUpdater.update(todo.get());
+            todoUpdateFun.accept(todo.get());
             saveToFile();
         } else {
             System.err.println("Update: Todo not found: " + id);
