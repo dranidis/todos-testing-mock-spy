@@ -2,6 +2,7 @@ package com.se.todos.acceptance.CLI;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -141,6 +142,24 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         System.setOut(originalSystemOut);
         System.out.println(outputStream.toString());
 
+    }
+
+    @Override
+    public void searchTasks(String string) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void assertThatTaskSecondTaskIsDeleted(String string) {
+        fail("Not implemented");
+        
+    }
+
+    @Override
+    public void deleteSecondTaskFromList(String string) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

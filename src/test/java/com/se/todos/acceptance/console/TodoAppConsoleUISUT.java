@@ -2,10 +2,14 @@ package com.se.todos.acceptance.console;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
@@ -23,18 +27,21 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
     private ByteArrayOutputStream outputStream;
     private PrintStream originalSystemOut;
     private RepositoryHelper repositoryHelper = new RepositoryHelper(fileName);
+
+    private PipedOutputStream pipedOutputStream = new PipedOutputStream();
+    private Thread mainThread;
     private static final InputStream DEFAULT_STDIN = System.in;
 
     @Override
     public void setUp() {
-        System.out.println("SETUP");
+        System.out.println("SETUP Console");
         repositoryHelper.emptyRepository();
-        captureSystemOutput();
+        // captureSystemOutput();
     }
 
     @Override
     public void cleanUp() {
-        restoreSystemOutput();
+        // restoreSystemOutput();
         System.setIn(DEFAULT_STDIN);
     }
 
@@ -113,8 +120,7 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
 
     @Override
     public void editSecondTask(String oldDescription, String newDescription) {
-        String input = "" + ConsoleUI.EDIT_TODO + "\n" + 2 + "\n" +
-                newDescription + "\n" + ConsoleUI.EXIT_APP + "\n";
+        String input = "" + ConsoleUI.EDIT_TODO + "\n" + 2 + "\n" + newDescription + "\n" + ConsoleUI.EXIT_APP + "\n";
         System.setIn(new ByteArrayInputStream((input).getBytes()));
         String a[] = { fileName };
         Main.main(a);
@@ -144,4 +150,64 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
         System.out.println(outputStream.toString());
 
     }
+
+    @Override
+    public void searchTasks(String string) {
+        System.err.println("SearchTasks setting IN");
+        // TODO
+        // System.setIn(new ByteArrayInputStream((input).getBytes()));
+        try {
+            System.setIn(new PipedInputStream(pipedOutputStream));
+            mainThread = new Thread(new Runnable() {
+                public void run() {
+                    System.err.println("Start main thread");
+                    String a[] = { fileName };
+                    Main.main(a);
+                    System.err.println("Exited main thread");
+                }
+            });
+
+            mainThread.start();
+            System.err.println("SearchTasks FINISHED");
+
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void deleteSecondTaskFromList(String string) {
+        String input = "" + ConsoleUI.EXIT_APP + "\n";
+
+        // new Thread(new Runnable() {
+        //     public void run() {
+        try {
+            System.out.println("WRITING");
+            pipedOutputStream.write(input.getBytes());
+            pipedOutputStream.flush();
+            // System.err.println(outputStream.toString());
+            System.out.println("FINISHED WRITING");
+            mainThread.join();
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //     }
+        // });
+        catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void assertThatTaskSecondTaskIsDeleted(String string) {
+        System.err.println("ASSERTING");
+        // fail("Not implemented");
+    }
+
 }
