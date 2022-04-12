@@ -34,4 +34,12 @@ public interface TodoAppSUT {
 
     void assertThatTaskHasChanged(String oldDescription, String newDescription);
 
+    void searchTasks(String string);
+
+    void endApplication();
+
+    void assertThatTaskWithIdIsDeleted(int i);
+
+    void deleteSecondTaskFromList();
+
 }

@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import com.se.todos.domain.Todo;
 import com.se.todos.domain.TodoRepository;
-import com.se.todos.domain.TodoUpdater;
 import com.se.todos.util.JSONFile;
 
 public class JSONRepository implements TodoRepository {
@@ -53,6 +54,12 @@ public class JSONRepository implements TodoRepository {
         return todos;
     }
 
+
+    @Override
+    public List<Todo> getTodos(String description) {
+        return todos.stream().filter(t -> t.description.contains(description)).collect(Collectors.toList());
+    }
+
     @Override
     public void saveTask(Todo todo) {
         todos.add(todo);
@@ -60,24 +67,25 @@ public class JSONRepository implements TodoRepository {
     }
 
     @Override
-    public void update(String todoDescription, TodoUpdater todoUpdater) {
-        Optional<Todo> todo = todos.stream().filter(t -> t.description.equals(todoDescription)).findFirst();
+    public void update(String id, Consumer<Todo> todoUpdateFun) {
+        Optional<Todo> todo = todos.stream().filter(t -> t.id.equals(id)).findFirst();
         if (todo.isPresent()) {
-            todoUpdater.update(todo.get());
+            todoUpdateFun.accept(todo.get());
             saveToFile();
         } else {
-            System.err.println("update: Todo not found: " + todoDescription);
+            System.err.println("Update: Todo not found: " + id);
         }
     }
 
     @Override
-    public void delete(String deleteTodoDescription) {
-        Optional<Todo> todo = todos.stream().filter(t -> t.description.equals(deleteTodoDescription)).findFirst();
+    public void delete(String id) {
+        Optional<Todo> todo = todos.stream().filter(t -> t.id.equals(id)).findFirst();
         if (todo.isPresent()) {
             todos.remove(todo.get());
             saveToFile();
         } else {
-            System.err.println("delete: Todo not found: " + deleteTodoDescription);
+            System.err.println("Delete: Todo not found: " + id);
         }
     }
+
 }

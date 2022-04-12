@@ -76,8 +76,8 @@ public class TodoAppSUTCLI implements TodoAppSUT {
     // COMPLETE
 
     @Override
-    public void completeSecondTask(String description) {
-        String a[] = { fileName, "complete", description };
+    public void completeSecondTask(String id) {
+        String a[] = { fileName, "complete", id };
         Main.main(a);
     }
 
@@ -100,8 +100,8 @@ public class TodoAppSUTCLI implements TodoAppSUT {
     // DELETE
 
     @Override
-    public void deleteSecondTask(String description) {
-        String a[] = { fileName, "delete", description };
+    public void deleteSecondTask(String id) {
+        String a[] = { fileName, "delete", id };
         Main.main(a);
     }
 
@@ -141,6 +141,25 @@ public class TodoAppSUTCLI implements TodoAppSUT {
         System.setOut(originalSystemOut);
         System.out.println(outputStream.toString());
 
+    }
+
+    @Override
+    public void searchTasks(String string) {
+        // not for CLI
+    }
+
+    @Override
+    public void assertThatTaskWithIdIsDeleted(int id) {
+        // not for CLI
+    }
+
+    @Override
+    public void deleteSecondTaskFromList() {
+        // not for CLI
+    }
+
+    @Override
+    public void endApplication() {
     }
 
 }

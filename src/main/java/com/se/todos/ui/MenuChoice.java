@@ -4,9 +4,9 @@ public class MenuChoice {
 
     public final int number;
     public final String display;
-    public final MenuCommand command;
+    public final Runnable command;
 
-    public MenuChoice(int number, String display, MenuCommand command) {
+    public MenuChoice(int number, String display, Runnable command) {
         this.number = number;
         this.display = display;
         this.command = command;

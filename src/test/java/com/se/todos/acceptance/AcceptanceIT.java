@@ -44,6 +44,7 @@ public class AcceptanceIT {
         // When
         todoAppSUT.startApplication();
         todoAppSUT.addTaskWithDescription("A new task");
+        todoAppSUT.endApplication();
 
         // Then
         todoAppSUT.assertThatTaskIsAdded("A new task");
@@ -57,6 +58,7 @@ public class AcceptanceIT {
         // When
         todoAppSUT.startApplication();
         todoAppSUT.listTasks();
+        todoAppSUT.endApplication();
 
         // Then
         todoAppSUT.assertThatAllTasksAreListed(Arrays.asList("Task 1", "Task 2", "Task 3"));
@@ -65,11 +67,13 @@ public class AcceptanceIT {
     @Test
     public void completeSecondTask() {
         // Given
+        // if ids are autoincrement starting with 1
         todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
         todoAppSUT.startApplication();
-        todoAppSUT.completeSecondTask("Task 2");
+        todoAppSUT.completeSecondTask("2");
+        todoAppSUT.endApplication();
 
         // Then
         todoAppSUT.assertThatTaskIscompleted("Task 2");
@@ -79,11 +83,13 @@ public class AcceptanceIT {
     @Test
     public void deleteATask() {
         // Given
+        // if ids are autoincrement starting with 1
         todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
         todoAppSUT.startApplication();
-        todoAppSUT.deleteSecondTask("Task 2");
+        todoAppSUT.deleteSecondTask("2");
+        todoAppSUT.endApplication();
 
         // Then
         todoAppSUT.assertThatTaskIsDeleted("Task 2");
@@ -92,14 +98,39 @@ public class AcceptanceIT {
     @Test
     public void editATask() {
         // Given
+        // if ids are autoincrement starting with 1
         todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 1", "Task 2", "Task 3"));
 
         // When
         todoAppSUT.startApplication();
-        todoAppSUT.editSecondTask("Task 2", "Task 2 edited");
+        todoAppSUT.editSecondTask("2", "Task 2 edited");
+        todoAppSUT.endApplication();
 
         // Then
         todoAppSUT.assertThatTaskHasChanged("Task 2", "Task 2 edited");
+    }
+
+
+
+    @Test
+    public void deleteATask_SameDescriptions() {
+        // Given 
+        // if ids are autoincrement starting with 1
+        todoAppSUT.fillRepositoryWithTodos(Arrays.asList("Task 2", "Task 1", "Task 3", "Task 1", "Task 1"));
+
+        // When
+        todoAppSUT.startApplication();
+        todoAppSUT.searchTasks("Task 1");
+        todoAppSUT.deleteSecondTaskFromList();
+
+        // todoAppSUT.listTasks();
+        todoAppSUT.endApplication();
+        
+
+        // todoAppSUT.searchTasks("Task 1");
+
+        // // Then
+        todoAppSUT.assertThatTaskWithIdIsDeleted(4);
     }
 
 }
