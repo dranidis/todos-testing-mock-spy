@@ -12,6 +12,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.se.todos.acceptance.CLI.TodoAppSUTCLI;
 import com.se.todos.acceptance.console.TodoAppConsoleUISUT;
+import com.se.todos.acceptance.rest.TodoAppRestSUT;
 
 @RunWith(value = Parameterized.class)
 public class AcceptanceIT {
@@ -25,7 +26,8 @@ public class AcceptanceIT {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 { new TodoAppSUTCLI() },
-                { new TodoAppConsoleUISUT() }
+                { new TodoAppConsoleUISUT() },
+                { new TodoAppRestSUT()}
         });
     }
 

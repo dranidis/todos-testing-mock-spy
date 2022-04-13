@@ -78,9 +78,9 @@ public class TodoAppConsoleUISUT implements TodoAppSUT {
     }
 
     @Override
-    public void assertThatTaskIscompleted(String string) {
-        boolean actual = repositoryHelper.isCompleted(string);
-        assertTrue("Todo is completed:" + string, actual);
+    public void assertThatTaskIscompleted(String description) {
+        boolean actual = repositoryHelper.isCompleted(description);
+        assertTrue("Todo is completed:" + description, actual);
     }
 
     @Override
