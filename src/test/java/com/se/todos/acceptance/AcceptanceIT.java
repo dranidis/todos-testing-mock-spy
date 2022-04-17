@@ -9,11 +9,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.se.todos.acceptance.CLI.TodoAppSUTCLI;
 import com.se.todos.acceptance.console.TodoAppConsoleUISUT;
 import com.se.todos.acceptance.rest.TodoAppRestSUT;
 
+@SpringBootTest
+@AutoConfigureMockMvc
 @RunWith(value = Parameterized.class)
 public class AcceptanceIT {
     private TodoAppSUT todoAppSUT;
@@ -25,8 +29,9 @@ public class AcceptanceIT {
     @Parameters(name = "{index}: ui({0})")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
-                { new TodoAppSUTCLI() },
-                { new TodoAppConsoleUISUT() },
+                // { new TodoAppSUTCLI() },
+                // { new TodoAppConsoleUISUT() }
+                // , 
                 { new TodoAppRestSUT()}
         });
     }

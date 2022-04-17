@@ -1,5 +1,7 @@
 package com.se.todos;
 
+import java.nio.file.Paths;
+
 import com.se.todos.domain.TodoApp;
 import com.se.todos.domain.TodoRepository;
 import com.se.todos.persistence.JSONRepository;
@@ -15,7 +17,8 @@ public class Main {
 
         TodoRepository todoRepository;
         if (args.length == 0) {
-            todoRepository = new JSONRepository();
+            String fileName = Paths.get("resources", "todos.json").toString();
+            todoRepository = new JSONRepository(fileName);
         } else {
             String fileName = args[0];
             todoRepository = new JSONRepository(fileName);

@@ -2,7 +2,6 @@ package com.se.todos.persistence;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -12,20 +11,21 @@ import com.se.todos.domain.Todo;
 import com.se.todos.domain.TodoRepository;
 import com.se.todos.util.JSONFile;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class JSONRepository implements TodoRepository {
     private final String fileName;
     private final JSONFile jsonFile = new JSONFile();
 
     private List<Todo> todos;
 
-    public JSONRepository() {
-        this.fileName = Paths.get("resources", "todos.json").toString();
-        createJSONRepositoryFile();
-        todos = jsonFile.readJsonFile(fileName);
-    }
-
-    public JSONRepository(String fileName2) {
-        this.fileName = fileName2;
+    @Autowired
+    public JSONRepository(@Value("${jsonFileName}") String fileName) {
+        System.out.println("Creating JSONRepository using filename: " + fileName);
+        this.fileName = fileName;
         createJSONRepositoryFile();
         todos = jsonFile.readJsonFile(fileName);
     }

@@ -3,10 +3,15 @@ package com.se.todos.domain;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class TodoApp {
 
     private TodoRepository todoRepository;
 
+    @Autowired
     public TodoApp(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
     }
@@ -18,6 +23,7 @@ public class TodoApp {
     public void createTask(String todoDescription) {
         if (!isValidDescription(todoDescription))
             return;
+        System.out.println("Valid");
         todoRepository.saveTask(new Todo(UUID.randomUUID().toString(), todoDescription));
     }
 
@@ -50,7 +56,5 @@ public class TodoApp {
     public void editTask(String id, String newTodoDescription) {
         todoRepository.update(id, todo -> todo.description = newTodoDescription);
     }
-
-
 
 }
